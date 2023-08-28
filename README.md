@@ -79,7 +79,8 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 - **Sales Clerk:**
 <img width="942" alt="image" src="https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/27c73ba9-6a86-49ac-800e-93a9dded1736">
 - **Supermarket Staff:**
-- ![image](https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/a4462b1a-b6f8-4d5e-a91b-4556e37e43e2)
+   <img width="957" alt="image" src="https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/6482c5f0-bfdf-4368-b161-f45c0b5e7d95">
+
 
 
 
