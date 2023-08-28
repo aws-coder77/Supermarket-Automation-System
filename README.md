@@ -32,6 +32,7 @@ The Supermarket Automation System is designed to enhance the efficiency of a sup
 - **Data Visualization:** Utilizes Google Chart API to visualize sales and inventory data.
 
 ## Technologies Used
+<img width="693" alt="image" src="https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/bd957a01-dff3-4ba2-ac4b-f240a9170663">
 
 - HTML
 - CSS (Bootstrap)
