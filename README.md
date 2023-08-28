@@ -32,7 +32,6 @@ The Supermarket Automation System is designed to enhance the efficiency of a sup
 - **Data Visualization:** Utilizes Google Chart API to visualize sales and inventory data.
 
 ## Technologies Used
-<img width="693" alt="image" src="https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/bd957a01-dff3-4ba2-ac4b-f240a9170663">
 
 - HTML
 - CSS (Bootstrap)
@@ -66,5 +65,21 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 3. Make your changes and commit them.
 4. Push your changes to your fork.
 5. Submit a pull request explaining your changes.
+## Screenshoot
+- **Manager:**
+   - **Stats**
+    - <img width="947" alt="image" src="https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/83a701d4-29be-4a76-add8-9a7141aaa941">
+<img width="943" alt="image" src="https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/2e8bd6f1-0409-4990-8ebc-c1ec3876b130">
+
+   - **Inventry**
+      ![image](https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/7ba61be0-df4f-4d32-baef-32a47ca03114)
+
+
+
+- **Sales Clerk:**
+<img width="942" alt="image" src="https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/27c73ba9-6a86-49ac-800e-93a9dded1736">
+- **Supermarket Staff:**
+- ![image](https://github.com/aws-coder77/Supermarket-Automation-System/assets/109901506/a4462b1a-b6f8-4d5e-a91b-4556e37e43e2)
+
 
 
