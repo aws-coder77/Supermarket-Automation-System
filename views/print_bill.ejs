@@ -1,0 +1,258 @@
+<% layout('layout/boiler_plate')%>
+
+
+<div id="printableArea" style="margin: auto; ">
+<div style="padding: 5%;" class="text-center" >
+<style>
+body {
+  font-size: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table tr td {
+  padding: 0;
+}
+
+table tr td:last-child {
+  text-align: right;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.right {
+  text-align: right;
+}
+
+.large {
+  font-size: 1.75em;
+}
+
+.total {
+  font-weight: bold;
+  color: #fb7578;
+}
+
+.logo-container {
+  margin: 20px 0 70px 0;
+}
+
+.invoice-info-container {
+  font-size: 0.875em;
+}
+.invoice-info-container td {
+  padding: 4px 0;
+}
+
+.client-name {
+  font-size: 1.2em;
+  vertical-align: top;
+}
+
+.line-items-container {
+  margin: 70px 0;
+  font-size: 0.875em;
+}
+
+.line-items-container th {
+  text-align: left;
+  color: #999;
+  border-bottom: 2px solid #ddd;
+  padding: 10px 0 15px 0;
+  font-size: 0.75em;
+  text-transform: uppercase;
+}
+
+.line-items-container th:last-child {
+  text-align: right;
+}
+
+.line-items-container td {
+  padding: 15px 0;
+}
+
+.line-items-container tbody tr:first-child td {
+  padding-top: 25px;
+}
+
+.line-items-container.has-bottom-border tbody tr:last-child td {
+  padding-bottom: 25px;
+  border-bottom: 2px solid #ddd;
+}
+
+.line-items-container.has-bottom-border {
+  margin-bottom: 0;
+}
+
+.line-items-container th.heading-quantity {
+  width: 50px;
+}
+.line-items-container th.heading-price {
+  text-align: right;
+  width: 100px;
+}
+.line-items-container th.heading-subtotal {
+  width: 100px;
+}
+
+.payment-info {
+  width: 38%;
+  font-size: 0.75em;
+  line-height: 1.5;
+}
+
+.footer {
+  margin-top: 100px;
+}
+
+.footer-thanks {
+  font-size: 1.125em;
+}
+
+.footer-thanks {
+  float: right;
+}
+
+
+.page-container {
+  display: none;
+}
+</style>
+
+<div class="page-container">
+	Page
+	<span class="page"></span>
+	of
+	<span class="pages"></span>
+  </div>
+  
+  <div class="logo-container text-center">
+	<h2 style="text-align: center;">
+		SuperMarket
+	</h2>
+  </div>
+  
+  <table class="invoice-info-container" style="text-align: left;">
+	<tr>
+	  <td rowspan="2" class="client-name">
+		Invoice No: <strong><%=bill.id%></strong> 
+	  </td>
+	  <td>
+		Automation Software
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+		SEL Project
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+		Invoice Date: <strong><%=bill.date.toLocaleDateString()%></strong>
+	  </td>
+	  <td>
+		CSE Batch, 2024
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+		Invoice Time: <strong><%=bill.date.toLocaleTimeString()%></strong>
+	  </td>
+	  <td>
+		Group 10
+	  </td>
+	</tr>
+  </table>
+  
+  
+  <table class="line-items-container" style="text-align: left;">
+	<thead>
+	  <tr>
+		<th class="heading-quantity" style="width: 20%;">Code</th>
+		<th class="heading-description">Name</th>
+		<th class="heading-quantity">Quantity</th>
+		<th class="heading-price">Unit Price (Rs.)</th>
+		<th class="heading-price">Item Price (Rs.)</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<%for (var i=0;i<bill.bill_items.length;i++){%>
+			<tr>
+				<td><%=bill.bill_items[i].item_code%></td>
+				<td><%=bill.bill_items[i].name%></td>
+				<td style="text-align: center;"><%=bill.bill_items[i].quantity%></td>
+				<td style="text-align: center;"><%=bill.bill_items[i].unit_price%></td>
+				<td style="text-align: center;" class="bold"><%=bill.bill_items[i].unit_price*bill.bill_items[i].quantity%></td>
+			</tr>
+		<%}%>
+	</tbody>
+  </table>
+  
+  
+  <table class="line-items-container">
+	<thead>
+		<tr>
+		  <th>SubTotal</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+		  <td class="large">
+			 	Rs. <%=bill.sub_total%>
+		  </td>
+		</tr>
+		<tr>
+		  <td >
+			  Tax: <strong><%=bill.tax%> %</strong>
+		  </td>
+		</tr>
+	</tbody>
+  </table>
+
+  <table class="line-items-container has-bottom-border">
+	<thead>
+	  <tr>
+		<th>Payment Info</th>
+		<th>Total Due</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td class="large">
+			Cash
+		</td>
+		<td class="large total">Rs. <%=bill.total_amount%></td>
+	  </tr>
+	</tbody>
+  </table>
+  
+  <div class="footer">
+	<div class="footer-thanks">
+	  <span>Thank you!</span>
+	</div>
+  </div>
+</div>
+<br>
+</div>
+<div class="text-center" style="padding-bottom: 5%;">
+	<input type="button" class="btn btn-info btn-lg" onclick="printDiv('printableArea')" value="Print" />
+</div>
+<script>
+	window.onload=printDiv('printableArea');
+	function printDiv(divName) {
+		console.log("HHHHHHHH")
+    var divContents = document.getElementById(divName).innerHTML;
+        var a = window.open('', '', 'height=500, width=500');
+        a.document.write('<html>');
+        a.document.write('<body >');
+        a.document.write(divContents);
+        a.document.write('</body></html>');
+        a.document.close();
+        a.print();
+	}
+</script>

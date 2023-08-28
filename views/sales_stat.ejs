@@ -1,0 +1,189 @@
+<% layout('layout/boiler_plate')%>
+<script
+  type="text/javascript"
+  src="https://www.gstatic.com/charts/loader.js"
+></script>
+
+<script type="text/javascript">
+    var x=11;
+  google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ["name", "number_of_quantity"],
+
+      <% for(var i=0; i<allsalesforpie.length; i++) {%>
+
+          [`<%= allsalesforpie[i].item_name %>`, <%= allsalesforpie[i].total %>],
+
+        <% } %>
+
+
+    ]);
+
+    var options = {
+      title: "My Daily Activities",
+      is3D: true,
+    };
+
+    var chart = new google.visualization.PieChart(
+      document.getElementById("piechart_3d")
+    );
+    console.log(data)
+    chart.draw(data, options);
+  }
+</script>
+<script type="text/javascript">
+  google.charts.load("current", { packages: ["bar"] });
+  google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart2);
+
+  function drawChart() {
+    let arr1= new Array(13); for (let i=0; i<13; ++i) arr1[i] = 0;
+
+        <% for(var j=0; j<allsales.length; j++) {%>
+          <%if( filter==0){%>
+            arr1[ <%= allsales[j].date.getMonth() +1 %> ] = arr1[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %>*<%= allsales[j].unit_price %> ;
+          <%}else if(allsales[j].item_code==filter){%>
+            arr1[ <%= allsales[j].date.getMonth() +1 %> ] = arr1[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %>*<%= allsales[j].unit_price %> ;
+          <%}%>
+        <% } %>
+
+    var data = google.visualization.arrayToDataTable([
+      ["Month","₹ Sales "],
+
+      ["January",arr1[1]],
+      ["February", arr1[2]],
+      ["March", arr1[3]],
+      ["April", arr1[4]],
+      ["May", arr1[5]],
+      ["June", arr1[6]],
+      ["July",arr1[7]],
+      ["August", arr1[8]],
+      ["September", arr1[9]],
+      ["October",arr1[10]],
+      ["November", arr1[11]],
+      ["December",arr1[12]],
+    ]);
+
+    var options = {
+      chart: {
+        title: "Company Performance",
+        subtitle: "Sales",
+      },
+    };
+
+    var chart = new google.charts.Bar(
+      document.getElementById("columnchart_material")
+    );
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+  }
+  
+  function drawChart2() {
+    let arr = new Array(13); for (let i=0; i<13; ++i) arr[i] = 0;
+
+        <% for(var j=0; j<allsales.length; j++) {%>
+          <%if( filter==0){%>
+            arr[ <%= allsales[j].date.getMonth() +1 %> ] = arr[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %> ;
+          <%}else if(allsales[j].item_code==filter){%>
+            arr[ <%= allsales[j].date.getMonth() +1 %> ] = arr[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %> ;
+          <%}%>
+        <% } %>
+
+    var data = google.visualization.arrayToDataTable([
+      ["Month","Quantity"],
+
+      ["January", arr[1]],
+      ["February", arr[2]],
+      ["March", arr[3]],
+      ["April", arr[4]],
+      ["May", arr[5]],
+      ["June", arr[6]],
+      ["July",arr[7]],
+      ["August", arr[8]],
+      ["September", arr[9]],
+      ["October",arr[10]],
+      ["November", arr[11]],
+      ["December",arr[12]],
+    ]);
+
+    var options = {
+      chart: {
+        title: "Company Performance",
+        subtitle: "Quantity",
+      },
+    };
+
+    var chart = new google.charts.Bar(
+      document.getElementById("columnchart_material2")
+    );
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+  }
+  
+  
+  function printDiv(divName) {
+		console.log("HHHHHHHH")
+    var divContents = document.getElementById(divName).innerHTML;
+        var a = window.open('', '', 'height=500, width=500');
+        a.document.write('<html>');
+        a.document.write('<body >');
+        a.document.write(divContents);
+        a.document.write('</body></html>');
+        a.document.close();
+        a.print();
+	}
+</script>
+
+<div class="total" id="printableArea" style="margin: auto; ">
+  <h1>Stat</h1>
+  <div class="first" id="piechart_3d"></div>
+
+  <p></p>
+
+  <form action="/stat" method="POST">
+    <label for="filter">Choose options:</label>
+    <select class="form-select" aria-label="Default select example" id="filter" name="filter">
+      <option value="0">total</option>
+      <%for(var j=0; j<allDetails.length; j++) {%>
+        <option value="<%=allDetails[j].item_code%>"><%=allDetails[j].item_name%></option>
+      <%}%>
+    </select>
+    <br>
+    <button type="submit" class="btn btn-secondary btn-lg"> Submit </button>
+  </form>
+
+  <div class="second" id="columnchart_material"></div>
+  
+  <div class="second" id="columnchart_material2"></div>
+</div>
+
+<br><br>
+<div class="text-center">
+	<input type="button" class="btn btn-primary btn-lg" onclick="printDiv('printableArea')" value="Print" />
+</div>
+<br><br>
+
+<style>
+  .first {
+    width: auto;
+    height: 350px;
+    display: block;
+  }
+  .second {
+    width: auto;
+    height: 350px;
+    display: block;
+  }
+
+  @media screen and (max-width: 350px) {
+    .first,
+    .second {
+      width: auto;
+    }
+    .total {
+      flex-direction: column;
+    }
+  }
+</style>

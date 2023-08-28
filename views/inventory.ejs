@@ -1,0 +1,149 @@
+<% layout('layout/boiler_plate') %>
+
+<script type="text/javascript" >
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        // console.log($(this).children('#it_name').text())
+        $(this).toggle($(this).children('#it_name').text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+  function fun(id,user_type){
+    console.log(user_type)
+    if (user_type == "Staff"){
+      u = document.getElementById("ci4");
+      u.style.display="none"
+      u = document.getElementById("ci44");
+      u.style.display="none"
+    }
+    if (user_type == "Manager"){
+      u = document.getElementById("ci5");
+      u.style.display="none"
+      u = document.getElementById("ci55");
+      u.style.display="none"
+    }
+    u = document.getElementById("ci1");
+    u.value=id.item_code
+    u = document.getElementById("ci4");
+    u.value=id.unit_price    
+    console.log(u)
+    u = document.getElementById("ci5");
+    u.value=id.quantity
+  }
+</script>
+
+
+<div class="text-center" style="margin: auto;" >
+    <h1>Inventory</h1>
+    <br>
+    <% if (currentUser.user_type == "Manager"){ %>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addItem">
+      Add Item
+    </button>
+    <br><br>
+    <%}%>
+    <input class="form-control border border-primary" id="myInput" type="text" placeholder="Search..">
+    <br><br>
+    <table class="table table-striped table table-hover table-bordered table-sm">
+        <thead>
+          <tr>
+          <th>Product Code</th>
+          <th>Product name</th>
+          <th>Description</th>
+          <th>MRP</th>
+          <th>Quantity</th>
+          <th>Update</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+          <% details.forEach(function(item,index){ %>
+          <tr>
+              <td><%= item.item_code %></td>
+              <td id="it_name"><%= item.item_name %></td>
+              <td id="it_name"><%= item.description %></td>
+              <td><%= item.unit_price %></td>
+              <td><%= item.quantity %></td>
+              <td>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#ex1" onclick="fun(<%=JSON.stringify(item)%>,<%=JSON.stringify(currentUser.user_type)%>);">
+                    Edit
+                </button>
+              </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      
+
+<!-- Update Modal -->
+      <div class="modal fade" id="ex1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Make Changes</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/updateItems" method="POST">
+
+            <div class="modal-body">
+                <input type="text" id="ci1"  name="i1"class="form-control" hidden ><br>
+
+                  <label id="ci44"  class="col-sm-2 col-form-label" for="ai3">MRP</label>
+                  <input type="number" id="ci4"  min="0" name="i3" ><br>
+
+                <label id="ci55" class="col-sm-2 col-form-label" for="ai4">Quantity</label>
+                <input type="number" id="ci5" min="0" name="i4" ><br>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button submit" class="btn btn-primary">Save changes</button>
+            </div>
+
+          </form>
+          </div>
+        </div>
+      </div>
+
+<!-- add item modal -->
+      <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mw-100 w-75" role="document">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Add Item</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form action="/add" method="POST">
+
+            <div class="modal-body">
+                <label class="col-sm-2 col-form-label" for="ai1">Product Name</label>
+                <input type="text" id="ai1" value="" name="i1" required ><br>
+                <label class="col-sm-2 col-form-label" for="ai2">Description</label>
+                <input type="text" id="ai2" value="" name="i2" required ><br>
+                <label class="col-sm-2 col-form-label" for="ai3">MRP</label>
+                <input type="number" id="ai3" value="" name="i3" required ><br>
+                <label class="col-sm-2 col-form-label" for="ai4">Quantity</label>
+                <input type="number" id="ai4" value="" name="i4" required ><br>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button submit" class="btn btn-primary">Add</button>
+            </div>
+
+          </form>
+
+          </div>
+        </div>
+      </div>
+</div>
+    
