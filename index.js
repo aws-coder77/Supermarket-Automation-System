@@ -90,7 +90,7 @@ app.get("/logout", isLoggedIn, async (req, res) => {
   });
 });
 
-app.get("/register", (req, res) => {
+app.get("/register",isLoggedIn, (req, res) => {
   res.render("register");
 });
 
