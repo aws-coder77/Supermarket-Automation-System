@@ -4,7 +4,8 @@
   "description": "Course project for software engineering  lab",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "dependencies": {
     "bootstrap-icons": "^1.10.3",
     "connect-flash": "^0.1.1",
+    "dotenv": "^17.2.0",
     "ejs": "^3.1.9",
     "ejs-mate": "^4.0.0",
     "express": "^4.18.2",
