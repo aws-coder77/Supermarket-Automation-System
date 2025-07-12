@@ -15,7 +15,7 @@ router.route("/login").post(
 );
 
 // Register routes
-router.route("/register").get(isLoggedIn, getRegister);
+router.route("/register").get(getRegister);
 router.route("/register").post(postRegister);
 
 // Logout route

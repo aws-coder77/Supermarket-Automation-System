@@ -35,6 +35,6 @@ exports.logout = async (req, res, next) => {
   req.logout(req.user, (err) => {
     if (err) return next(err);
     req.flash("success", "Goodbye!");
-    res.redirect("/auth/login");
+    res.redirect("/login");
   });
 };
