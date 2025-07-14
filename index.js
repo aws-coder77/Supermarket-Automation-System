@@ -8,8 +8,9 @@ const connenctDatabase = require("./config/databaseConnection");
 connenctDatabase();
 
 // listening on port 4000
+console.log("");
 const server = app.listen(process.env.PORT || 4000, process.env.APPLICATION_IP, () => {
-  console.log(`Listening on port ${process.env.PORT}!!..`);
+  console.log(`Server is running on http://${process.env.APPLICATION_IP}:${process.env.PORT || 4000}`);
 });
 
 server.keepAliveTimeout = 120000;
