@@ -50,20 +50,11 @@ The Supermarket Automation System is designed to enhance the efficiency of a sup
 
 ## Usage
 
-1. Start the server using `node app.js`.
+1. Start the server using `node index.js`.
 2. Access the application in a web browser.
 3. Log in with the provided roles (Manager, Sales Clerk, Supermarket Staff).
 4. Explore the different functionalities based on your role.
 
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or improvement.
-3. Make your changes and commit them.
-4. Push your changes to your fork.
-5. Submit a pull request explaining your changes.
 ## Screenshoot
 - **Manager:**
    - **Stats**
