@@ -9,8 +9,7 @@ The Supermarket Automation System is a project designed to streamline the operat
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [Screenshoot](#Screenshoot)
 
 ## Project Overview
 
