@@ -8,6 +8,9 @@ const connenctDatabase = require("./config/databaseConnection");
 connenctDatabase();
 
 // listening on port 4000
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT || 4000, process.env.APPLICATION_IP, () => {
   console.log(`Listening on port ${process.env.PORT}!!..`);
 });
+
+server.keepAliveTimeout = 120000;
+server.headersTimeout = 120000;
