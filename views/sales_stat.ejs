@@ -1,189 +1,184 @@
-<% layout('layout/boiler_plate')%>
-<script
-  type="text/javascript"
-  src="https://www.gstatic.com/charts/loader.js"
-></script>
+<% layout('layout/boiler_plate') %>
 
+<!-- Google Charts Loader -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<!-- Chart Script -->
 <script type="text/javascript">
-    var x=11;
-  google.charts.load("current", { packages: ["corechart"] });
-  google.charts.setOnLoadCallback(drawChart);
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
+  google.charts.load("current", { packages: ["corechart", "bar"] });
+  google.charts.setOnLoadCallback(drawCharts);
+
+  function drawCharts() {
+    drawPieChart();
+    drawSalesChart();
+    drawQuantityChart();
+  }
+
+  function drawPieChart() {
+    const data = google.visualization.arrayToDataTable([
       ["name", "number_of_quantity"],
-
-      <% for(var i=0; i<allsalesforpie.length; i++) {%>
-
-          [`<%= allsalesforpie[i].item_name %>`, <%= allsalesforpie[i].total %>],
-
-        <% } %>
-
-
+      <% for(let i = 0; i < allsalesforpie.length; i++) { %>
+        ["<%= allsalesforpie[i].item_name %>", <%= allsalesforpie[i].total %>],
+      <% } %>
     ]);
 
-    var options = {
-      title: "My Daily Activities",
-      is3D: true,
+    const options = {
+      title: "Item-wise Sales Distribution",
+      is3D: true
     };
 
-    var chart = new google.visualization.PieChart(
-      document.getElementById("piechart_3d")
-    );
-    // console.log(data)
+    const chart = new google.visualization.PieChart(document.getElementById("piechart_3d"));
     chart.draw(data, options);
   }
-</script>
-<script type="text/javascript">
-  google.charts.load("current", { packages: ["bar"] });
-  google.charts.setOnLoadCallback(drawChart);
-    google.charts.setOnLoadCallback(drawChart2);
 
-  function drawChart() {
-    let arr1= new Array(13); for (let i=0; i<13; ++i) arr1[i] = 0;
+  function drawSalesChart() {
+    const sales = Array(13).fill(0);
+    console.log("sales", sales);
+    <% const f = Number(filter); %>
+    <% allsales.forEach(sale => { 
+         const month = new Date(sale.date).getMonth() + 1;
+         const amount = sale.quantity * sale.unit_price;
+         if (f === 0 || sale.item_code === f) { %>
+           sales[<%= month %>] += <%= amount %>;
+    <% } }); %>
 
-        <% for(var j=0; j<allsales.length; j++) {%>
-          <%if( filter==0){%>
-            arr1[ <%= allsales[j].date.getMonth() +1 %> ] = arr1[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %>*<%= allsales[j].unit_price %> ;
-          <%}else if(allsales[j].item_code==filter){%>
-            arr1[ <%= allsales[j].date.getMonth() +1 %> ] = arr1[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %>*<%= allsales[j].unit_price %> ;
-          <%}%>
-        <% } %>
+    const data = google.visualization.arrayToDataTable([
+      ["Month", "₹ Sales", { role: "style" }],
+      ["January", sales[1], "stroke-width: 2;"],
+      ["February", sales[2], "stroke-width: 2;"],
+      ["March", sales[3], "stroke-width: 2;"],
+      ["April", sales[2], "stroke-width: 2;"],
+      ["May", sales[5], "stroke-width: 2;"],
+      ["June", sales[6], "stroke-width: 2;"],
+      ["July", sales[7], "stroke-width: 2;"],
+      ["August", sales[8], "stroke-width: 2;"],
+      ["September", sales[9], "stroke-width: 2;"],
+      ["October", sales[10], "stroke-width: 2;"],
+      ["November", sales[11], "stroke-width: 2;"],
+      ["December", sales[12], "stroke-width: 2;"],
+]);
 
-    var data = google.visualization.arrayToDataTable([
-      ["Month","₹ Sales "],
 
-      ["January",arr1[1]],
-      ["February", arr1[2]],
-      ["March", arr1[3]],
-      ["April", arr1[4]],
-      ["May", arr1[5]],
-      ["June", arr1[6]],
-      ["July",arr1[7]],
-      ["August", arr1[8]],
-      ["September", arr1[9]],
-      ["October",arr1[10]],
-      ["November", arr1[11]],
-      ["December",arr1[12]],
-    ]);
-
-    var options = {
+    const options = {
       chart: {
-        title: "Company Performance",
-        subtitle: "Sales",
+        title: "Monthly Sales",
+        subtitle: "₹ Amount"
       },
+      bar: { groupWidth: "80%" }
     };
 
-    var chart = new google.charts.Bar(
-      document.getElementById("columnchart_material")
-    );
-
+    const chart = new google.charts.Bar(document.getElementById("columnchart_material"));
     chart.draw(data, google.charts.Bar.convertOptions(options));
   }
-  
-  function drawChart2() {
-    let arr = new Array(13); for (let i=0; i<13; ++i) arr[i] = 0;
 
-        <% for(var j=0; j<allsales.length; j++) {%>
-          <%if( filter==0){%>
-            arr[ <%= allsales[j].date.getMonth() +1 %> ] = arr[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %> ;
-          <%}else if(allsales[j].item_code==filter){%>
-            arr[ <%= allsales[j].date.getMonth() +1 %> ] = arr[<%= allsales[j].date.getMonth() +1 %> ] +  <%= allsales[j].quantity %> ;
-          <%}%>
-        <% } %>
+  function drawQuantityChart() {
+    const quantity = Array(13).fill(0);
+    <% allsales.forEach(sale => { 
+         const month = new Date(sale.date).getMonth() + 1;
+         if (f === 0 || sale.item_code === f) { %>
+           quantity[<%= month %>] += <%= sale.quantity %>;
+    <% } }); %>
 
-    var data = google.visualization.arrayToDataTable([
-      ["Month","Quantity"],
+    const data = google.visualization.arrayToDataTable([
+      ["Month", "Quantity"],
+      ["January", quantity[1]],
+      ["February", quantity[2]],
+      ["March", quantity[3]],
+      ["April", quantity[4]],
+      ["May", quantity[5]],
+      ["June", quantity[6]],
+      ["July", quantity[7]],
+      ["August", quantity[8]],
+      ["September", quantity[9]],
+      ["October", quantity[10]],
+      ["November", quantity[11]],
+      ["December", quantity[12]],
+    ], false);
 
-      ["January", arr[1]],
-      ["February", arr[2]],
-      ["March", arr[3]],
-      ["April", arr[4]],
-      ["May", arr[5]],
-      ["June", arr[6]],
-      ["July",arr[7]],
-      ["August", arr[8]],
-      ["September", arr[9]],
-      ["October",arr[10]],
-      ["November", arr[11]],
-      ["December",arr[12]],
-    ]);
-
-    var options = {
+    const options = {
       chart: {
-        title: "Company Performance",
-        subtitle: "Quantity",
+        title: "Monthly Quantity",
+        subtitle: "Total Items Sold"
       },
+     bar: { groupWidth: "80%" }
     };
 
-    var chart = new google.charts.Bar(
-      document.getElementById("columnchart_material2")
-    );
-
+    const chart = new google.charts.Bar(document.getElementById("columnchart_material2"));
     chart.draw(data, google.charts.Bar.convertOptions(options));
   }
-  
-  
-  function printDiv(divName) {
-		// console.log("HHHHHHHH")
-    var divContents = document.getElementById(divName).innerHTML;
-        var a = window.open('', '', 'height=500, width=500');
-        a.document.write('<html>');
-        a.document.write('<body >');
-        a.document.write(divContents);
-        a.document.write('</body></html>');
-        a.document.close();
-        a.print();
-	}
 </script>
 
-<div class="total" id="printableArea" style="margin: auto; ">
-  <h1>Stat</h1>
-  <div class="first" id="piechart_3d"></div>
+<!-- Content Area -->
+<div class="total" id="printableArea" style="margin: auto;">
+  <h1>Sales Statistics</h1>
 
-  <p></p>
+  <!-- Pie Chart -->
+  <div class="first" id="piechart_3d" style="height: 350px;"></div>
 
+  <!-- Filter Form -->
   <form action="/stat" method="POST">
-    <label for="filter">Choose options:</label>
-    <select class="form-select" aria-label="Default select example" id="filter" name="filter">
-      <option value="0">total</option>
-      <%for(var j=0; j<allDetails.length; j++) {%>
-        <option value="<%=allDetails[j].item_code%>"><%=allDetails[j].item_name%></option>
-      <%}%>
+    <label for="filter">Filter by Item:</label>
+    <select class="form-select" name="filter" id="filter">
+      <option value="0" <%= filter == 0 ? 'selected' : '' %>>All Items</option>
+      <% allDetails.forEach(item => { %>
+        <option value="<%= item.item_code %>" <%= filter == item.item_code ? 'selected' : '' %>><%= item.item_name %></option>
+      <% }); %>
     </select>
     <br>
-    <button type="submit" class="btn btn-secondary btn-lg"> Submit </button>
+    <button type="submit" class="btn btn-secondary btn-lg">Submit</button>
   </form>
 
-  <div class="second" id="columnchart_material"></div>
-  
-  <div class="second" id="columnchart_material2"></div>
+  <!-- Sales Chart -->
+   <div class="second" id="columnchart_material" ></div>
+
+  <!-- Quantity Chart -->
+  <div class="second" id="columnchart_material2" ></div>
 </div>
 
-<br><br>
-<div class="text-center">
-	<input type="button" class="btn btn-primary btn-lg" onclick="printDiv('printableArea')" value="Print" />
+<!-- Print Button -->
+<div class="text-center" style="margin: 10px;">
+  <input type="button" class="btn btn-primary btn-lg" onclick="printDiv('printableArea')" value="Print" />
 </div>
-<br><br>
 
+<!-- Print Function -->
+<script>
+  function printDiv(divName) {
+    const contents = document.getElementById(divName).innerHTML;
+
+    // Get all current stylesheets from the document
+    const styles = [...document.querySelectorAll('link[rel="stylesheet"], style')]
+      .map(style => style.outerHTML)
+      .join('');
+
+    const newWin = window.open('', '', 'width=800,height=600');
+    newWin.document.write(`
+      <html>
+        <head>
+          <title>Print</title>
+          ${styles} <!-- Add styles here -->
+        </head>
+        <body>
+          ${contents}
+        </body>
+      </html>
+    `);
+    newWin.document.close();
+    newWin.focus();
+    newWin.print();
+    newWin.close();
+  }
+</script>
+
+
+<!-- Basic Style -->
 <style>
-  .first {
-    width: auto;
-    height: 350px;
-    display: block;
-  }
-  .second {
-    width: auto;
-    height: 350px;
-    display: block;
-  }
-
-  @media screen and (max-width: 350px) {
-    .first,
-    .second {
-      width: auto;
-    }
-    .total {
-      flex-direction: column;
-    }
+ .first, .second {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    min-height: 300px;
+    max-height: 600px;
+    margin: auto;
+    flex-wrap: wrap;
   }
 </style>

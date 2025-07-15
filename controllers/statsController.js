@@ -1,5 +1,6 @@
 const Sales = require("../models/sales");
 const Item = require("../models/item");
+const sales = require("../models/sales");
 // const catchAsyncError = require("../middlewares/catchAsyncError");
 
 // Get statistics page
@@ -11,8 +12,9 @@ exports.getStats = async (req, res, next) => {
 
 // Filter statistics
 exports.filterStats = async (req, res, next) => {
-  const filter = req.body.filter;
+  const filter = parseInt(req.body.filter);
   const salesData = await getSalesData();
+  console.log("filter", filter, "salesData", salesData);
   res.render("sales_stat", { ...salesData, filter });
 };
 
